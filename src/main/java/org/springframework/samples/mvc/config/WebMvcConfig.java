@@ -6,9 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.samples.mvc.async.TimeoutCallableProcessingInterceptor;
-import org.springframework.samples.mvc.convert.MaskFormatAnnotationFormatterFactory;
-import org.springframework.samples.mvc.data.custom.CustomArgumentResolver;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
@@ -33,12 +30,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
-		registry.addFormatterForFieldAnnotation(new MaskFormatAnnotationFormatterFactory());
+//		registry.addFormatterForFieldAnnotation(new MaskFormatAnnotationFormatterFactory());
 	}
 
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-		resolvers.add(new CustomArgumentResolver());
+//		resolvers.add(new CustomArgumentResolver());
 	}
 
 	// Handle HTTP GET requests for /resources/** by efficiently serving
@@ -51,7 +48,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/").setViewName("home");
+		registry.addViewController("/").setViewName("index");
 	}
 
 	@Override
@@ -69,7 +66,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
 		configurer.setDefaultTimeout(3000);
-		configurer.registerCallableInterceptors(new TimeoutCallableProcessingInterceptor());
+//		configurer.registerCallableInterceptors(new TimeoutCallableProcessingInterceptor());
 	}
 
 	@Bean
