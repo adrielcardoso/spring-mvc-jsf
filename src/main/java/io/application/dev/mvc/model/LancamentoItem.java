@@ -1,11 +1,6 @@
 package io.application.dev.mvc.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "lancamento_item")
@@ -13,30 +8,20 @@ public class LancamentoItem
 {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "oid")
+    private Long oid;
 
-    @Column
-    private int oid;
-
-    @Column
+    @Column(name = "valor")
     private float valor;
 
-    @Column
+    @Column(name = "descricao")
     private String descricao;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getOid() {
+    public Long getOid() {
         return oid;
     }
 
-    public void setOid(int oid) {
+    public void setOid(Long oid) {
         this.oid = oid;
     }
 

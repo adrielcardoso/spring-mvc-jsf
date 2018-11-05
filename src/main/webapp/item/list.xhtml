@@ -1,20 +1,59 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-<h:head></h:head>
-<body>
-    <h1>Lista de Itens</h1>
-    <p:dataTable var="item" value="#{LancamentoItemBean.obtener()}" widgetVar="customerTable" emptyMessage="nao contem itens cadastrados ate o momento">
-        <p:column headerText="Id">
-            <h:outputText value="#{item.oid}"/>
-        </p:column>
-        <p:column headerText="First Name">
-            <h:outputText value="#{item.valor}"/>
-        </p:column>
-        <p:column headerText="Last Name">
-            <h:outputText value="#{item.descricao}"/>
-        </p:column>
-    </p:dataTable>
-</body>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <h2><center>Todos os itens</center></h2>
+</h:head>
+<h:body>
+    <p:spacer> </p:spacer>
+    <h:form id="form">
+
+        <p:growl id="msgs" showDetail="true"/>
+
+        <p:dataTable editable="true" id="dataTable" var="item" paginator="true" rows="20" value="#{LancamentoItemBean.itens}">
+
+            <p:ajax event="rowEdit" listener="#{LancamentoItemBean.onRowEdit}" update=":form:msgs" />
+            <p:ajax event="rowEditCancel" listener="#{LancamentoItemBean.onRowCancel}" update=":form:msgs" />
+
+            <p:column headerText="ID">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{item.oid}" /></f:facet>
+                    <f:facet name="input"><p:inputText value="#{item.oid}" style="width:100%" label="ID"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="valor">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{item.valor}" /></f:facet>
+                    <f:facet name="input"><p:inputText value="#{item.valor}" style="width:100%" label="Valor"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="descricao">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{item.descricao}" /></f:facet>
+                    <f:facet name="input"><p:inputText value="#{item.descricao}" style="width:100%" label="descricao"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Editar" style="width:32px">
+                <p:rowEditor />
+            </p:column>
+            <p:column headerText="Remover">
+                <p:commandButton  action="#{LancamentoItemBean.onRowDelete(item)}" value="Remover" ajax="true" update="dataTable" process="@this" />
+            </p:column>
+        </p:dataTable>
+
+        <h:panelGroup>
+            <h3>Add Item</h3>
+            <h:form>
+                <p>Valor
+                    <p:inputText value="#{LancamentoItemBean.valor}" /></p>
+                <p>Descricao
+                    <p:inputText value="#{LancamentoItemBean.descricao}" /></p>
+                <p:commandButton icon="ui-icon-plusthick" update=":form:dataTable" type="submit" value="add" action="#{LancamentoItemBean.onAddNew}" />
+            </h:form>
+        </h:panelGroup>
+    </h:form>
+</h:body>
+
 </html>
