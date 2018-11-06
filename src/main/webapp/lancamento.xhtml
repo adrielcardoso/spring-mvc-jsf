@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head></h:head>
+<body>
+
+<p:growl id="msg" showDetail="true" escape="false" />
+
+<h:form id="form">
+
+    <h1>Painel de Lançamentos</h1>
+
+    <!--NAV BUTTONS-->
+
+    <h:panelGrid columns="1" cellpadding="5">
+        <p:commandButton value="Novo Lançamento" type="button" onclick="PF('dlg2').show();" />
+    </h:panelGrid>
+
+
+    <!--DATATABLE LANCAMENTOS-->
+
+    <p:panel id="deptPanel" header="Lançamentos">
+
+        <p:dataTable selection="#{LancamentoBean.currentLancamento}" id="deptTable" var="dept" selectionMode="single" value="#{LancamentoBean.data}" rowKey="#{dept.id}">
+
+            <p:ajax event="rowSelect" listener="#{LancamentoBean.onRowSelect}" update=":form:empPanel" />
+
+            <p:column headerText="oid">
+                <h:outputText id="oid" value="#{dept.id}"/>
+            </p:column>
+            <p:column headerText="dtInicial">
+                <h:outputText id="dtInicial" value="#{dept.dtInicial}"/>
+            </p:column>
+            <p:column headerText="dtFinal">
+                <h:outputText id="dtFinal" value="#{dept.dtFinal}"/>
+            </p:column>
+            <p:column headerText="vlTotal">
+                <h:outputText id="vlTotal" value="#{dept.vlTotal}"/>
+            </p:column>
+            <p:column headerText="observacao">
+                <h:outputText id="observacao" value="#{dept.observacao}"/>
+            </p:column>
+        </p:dataTable>
+
+    </p:panel>
+
+
+    <!--MODAL LANCAMENTO-->
+
+    <p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true">
+
+        <h3 style="margin-top: 0">Cadastro de Lançamento</h3>
+
+        <h:panelGroup>
+
+                <div class="ui-g">
+
+                    <div class="ui-g-6">
+                        <p:outputLabel for="popup" value="Data início" />
+                        <p:calendar id="popup" value="#{LancamentoBean.newLancamento.dtInicial}" pattern="dd/MM/yyyy HH:mm:ss"/>
+                    </div>
+
+                    <div class="ui-g-6">
+                        <p:outputLabel for="popup2" value="Data Fim" />
+                        <p:calendar id="popup2" value="#{LancamentoBean.newLancamento.dtFinal}" pattern="dd/MM/yyyy HH:mm:ss"/>
+                    </div>
+
+                    <div class="ui-g-12">
+                        <h3>Observação</h3>
+                        <p:inputTextarea rows="6" cols="33" value="#{LancamentoBean.newLancamento.observacao}" />
+                    </div>
+
+                    <div class="ui-g-12">
+                        <p:commandButton onclick="PF('dlg2').hide();" icon="ui-icon-plusthick" update="deptTable" type="submit" value="Cadastrar" action="#{LancamentoBean.onAddNew}" />
+                    </div>
+
+                </div>
+
+        </h:panelGroup>
+
+    </p:dialog>
+
+
+
+    <!--ITENS DE LANCAMENTO-->
+
+
+    <p:panel id="empPanel" header="Itens">
+        <p:dataTable var="single" value="#{LancamentoBean.currentLancamento.itens}">
+            <p:column headerText="oid">
+                <h:outputText value="#{single.id}" />
+            </p:column>
+            <p:column headerText="valor">
+                <h:outputText value="#{single.valor}" />
+            </p:column>
+            <p:column headerText="descricao">
+                <h:outputText value="#{single.descricao}" />
+            </p:column>
+        </p:dataTable>
+    </p:panel>
+
+    <!--MODAL CADASTRO DE ITEM PARA LANCAMENTO-->
+
+    <!--NAV BUTTONS-->
+
+    <h:panelGrid columns="1" cellpadding="5">
+        <p:commandButton value="Novo Item" type="button" onclick="PF('dlg2Item').show();" />
+    </h:panelGrid>
+
+    <p:dialog header="Cadastro de item" widgetVar="dlg2Item" modal="true">
+
+        <h:panelGroup>
+            <h:form>
+                <div class="ui-g">
+
+                    <p:pickList id="pickList" value="#{LancamentoBean.itensDisponiveis}" var="item" itemLabel="#{item.valor}" itemValue="#{item}" />
+
+                    <div class="ui-g-12">
+                        <p:commandButton onclick="PF('dlg2Item').hide();" icon="ui-icon-plusthick" update="msg" type="submit" value="Cadastrar" action="#{LancamentoBean.onAddNewItem}" />
+                    </div>
+
+                </div>
+            </h:form>
+        </h:panelGroup>
+
+    </p:dialog>
+
+</h:form>
+</body>
+</html>

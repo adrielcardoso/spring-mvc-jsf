@@ -1,33 +1,85 @@
 package io.application.dev.mvc.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.application.dev.mvc.util.LocalDateTimeAttributeConverter;
+import io.application.dev.mvc.util.LocalDateTimeDeserializer;
+import io.application.dev.mvc.util.LocalDateTimeSerializer;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.*;
+
+@Entity
+@Table(name = "lancamento")
 public class Lancamento
 {
-    private int oid;
-    private float valor;
-    private String descricao;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "oid")
+    private Long id;
 
-    public int getOid() {
-        return oid;
+    @Column(name="dt_inicial")
+    private Date dtInicial;
+
+    @Column(name="dt_final")
+    private Date dtFinal;
+
+    @Column(name = "vl_total")
+    private float vlTotal;
+
+    @Column(name = "observacao")
+    private String observacao;
+
+    @ManyToMany(mappedBy = "lancamento", cascade = CascadeType.MERGE)
+    private List<LancamentoItem> itens = new ArrayList<>();
+
+    public List<LancamentoItem> getItens() {
+        return itens;
     }
 
-    public void setOid(int oid) {
-        this.oid = oid;
+    public void setItens(List<LancamentoItem> itens) {
+        this.itens = itens;
     }
 
-    public float getValor() {
-        return valor;
+    public Date getDtInicial() {
+        return dtInicial;
     }
 
-    public void setValor(float valor) {
-        this.valor = valor;
+    public void setDtInicial(Date dtInicial) {
+        this.dtInicial = dtInicial;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public Date getDtFinal() {
+        return dtFinal;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setDtFinal(Date dtFinal) {
+        this.dtFinal = dtFinal;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public float getVlTotal() {
+        return vlTotal;
+    }
+
+    public void setVlTotal(float vlTotal) {
+        this.vlTotal = vlTotal;
+    }
+
+    public String getObservacao() {
+        return observacao;
+    }
+
+    public void setObservacao(String observacao) {
+        this.observacao = observacao;
     }
 }
 

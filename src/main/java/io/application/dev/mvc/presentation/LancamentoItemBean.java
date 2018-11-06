@@ -75,7 +75,7 @@ public class LancamentoItemBean implements Serializable
             message = e.getMessage();
         }
         FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(message, ((LancamentoItem) event.getObject()).getOid().toString()));
+                new FacesMessage(message, ((LancamentoItem) event.getObject()).getId().toString()));
     }
 
     public void onRowDelete(LancamentoItem lancamentoItem)
@@ -91,7 +91,7 @@ public class LancamentoItemBean implements Serializable
     }
 
     public void onRowCancel(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Editar Cancelado", ((LancamentoItem) event.getObject()).getOid().toString());
+        FacesMessage msg = new FacesMessage("Editar Cancelado", ((LancamentoItem) event.getObject()).getId().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 

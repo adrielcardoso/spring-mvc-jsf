@@ -1,7 +1,6 @@
 package io.application.dev.mvc.DAO;
 
 import io.application.dev.mvc.model.JPAUtil;
-import io.application.dev.mvc.model.Lancamento;
 import io.application.dev.mvc.model.LancamentoItem;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -9,21 +8,22 @@ import java.util.List;
 
 public class LancamentoItemDAO
 {
-    EntityManager entity = JPAUtil.getEntityManagerFactory().createEntityManager();
-
     public List<LancamentoItem> obter(){
+        EntityManager entity = JPAUtil.getEntityManagerFactory().createEntityManager();
         Query q=entity.createQuery("SELECT c FROM LancamentoItem c");
-        return q.getResultList();
+        List<LancamentoItem> list = q.getResultList();
+        return list;
     }
 
     public void guardar(LancamentoItem lancamentoItem) {
+        EntityManager entity = JPAUtil.getEntityManagerFactory().createEntityManager();
         entity.getTransaction().begin();
         entity.persist(lancamentoItem);
         entity.getTransaction().commit();
     }
 
     public void editar(LancamentoItem lancamentoItem) throws Exception{
-
+        EntityManager entity = JPAUtil.getEntityManagerFactory().createEntityManager();
         LancamentoItem temp = this.lancamentoExiste(lancamentoItem);
 
         temp.setValor(lancamentoItem.getValor());
@@ -36,6 +36,8 @@ public class LancamentoItemDAO
 
     public void deletar(LancamentoItem lancamentoItem) throws Exception{
 
+        EntityManager entity = JPAUtil.getEntityManagerFactory().createEntityManager();
+
         /**
          * validate object
          */
@@ -47,14 +49,12 @@ public class LancamentoItemDAO
     }
 
     public LancamentoItem lancamentoExiste(LancamentoItem lancamentoItem) throws Exception{
-        LancamentoItem temp = this.buscar(lancamentoItem.getOid());
+        EntityManager entity = JPAUtil.getEntityManagerFactory().createEntityManager();
+
+        LancamentoItem temp = entity.find(LancamentoItem.class,lancamentoItem.getId());
         if(temp == null){
             throw new Exception("Item nao encontrado, tente novamente");
         }
         return temp;
-    }
-
-    public LancamentoItem buscar(Long id) {
-        return entity.find(LancamentoItem.class,id);
     }
 }
