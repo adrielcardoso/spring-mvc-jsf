@@ -3,9 +3,14 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui" xmlns:o="http://java.sun.com/jsf/core">
 <h:head></h:head>
 <body>
+
+<p:menubar>
+    <p:menuitem value="Item" url="http://localhost:8080/application/v1/item.xhtml" />
+    <p:menuitem value="Lançamento" url="http://localhost:8080/application/v1/lancamento.xhtml" />
+</p:menubar>
 
 <p:growl id="msg" showDetail="true" escape="false" />
 
@@ -116,7 +121,16 @@
             <h:form>
                 <div class="ui-g">
 
-                    <p:pickList id="pickList" value="#{LancamentoBean.itensDisponiveis}" var="item" itemLabel="#{item.valor}" itemValue="#{item}" />
+                    <p:pickList id="pickList" required="true"
+                                value="#{LancamentoBean.itensDisponiveis}" var="item"
+                                itemValue="#{item}"
+                                itemLabel="#{item.valor}"
+                                converter="#{bizEntityDualListConverter}" showCheckbox="true"
+                                showSourceFilter="true" showTargetFilter="true"
+                                filterMatchMode="contains">
+                        <p:ajax event="transfer" listener="#{LancamentoBean.transferEvent}"></p:ajax>
+                        <p:column style="width:75%;">#{item.valor}</p:column>
+                    </p:pickList>
 
                     <div class="ui-g-12">
                         <p:commandButton onclick="PF('dlg2Item').hide();" icon="ui-icon-plusthick" update="msg" type="submit" value="Cadastrar" action="#{LancamentoBean.onAddNewItem}" />

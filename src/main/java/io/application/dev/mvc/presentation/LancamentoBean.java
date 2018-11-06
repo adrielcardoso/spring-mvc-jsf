@@ -6,6 +6,7 @@ import io.application.dev.mvc.model.Lancamento;
 import io.application.dev.mvc.model.LancamentoItem;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
 
 import javax.annotation.PostConstruct;
@@ -153,17 +154,8 @@ public class LancamentoBean implements Serializable
             return;
         }
 
-        this.itensDisponiveis.getSource().forEach(single -> {
-            if(single != null){
-                this.getCurrentLancamento().getItens().add((LancamentoItem) single);
-            }
-        });
-
-        LancamentoItem temp = new LancamentoItem();
-        temp.setValor(0);
-        temp.setDescricao("INL");
-        this.getCurrentLancamento().getItens().add(temp);
-
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, String.valueOf(this.itensDisponiveis.getTarget().size()) + " itens", ""));
 
         this.service.editar(
                 this.getCurrentLancamento()
@@ -173,5 +165,12 @@ public class LancamentoBean implements Serializable
 
         FacesMessage msg = new FacesMessage("Adicionado com sucesso");
         FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void transferEvent(TransferEvent event){
+        int size = this.itensDisponiveis.getTarget().size();
+        this.itensDisponiveis.getTarget().forEach(single -> {
+            this.getCurrentLancamento().getItens().add((LancamentoItem) single);
+        });
     }
 }

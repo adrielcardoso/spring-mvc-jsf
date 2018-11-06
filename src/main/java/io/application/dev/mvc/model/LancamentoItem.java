@@ -21,12 +21,7 @@ public class LancamentoItem
     @Column(name = "descricao")
     private String descricao;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "lancamento_item",
-            joinColumns = { @JoinColumn(name = "oid_item") },
-            inverseJoinColumns = { @JoinColumn(name = "oid_lancamento") }
-    )
+    @ManyToMany(mappedBy = "itens", cascade = CascadeType.ALL)
     private List<Lancamento> lancamento = new ArrayList<>();
 
     public List<Lancamento> getLancamento() {

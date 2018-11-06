@@ -31,7 +31,12 @@ public class Lancamento
     @Column(name = "observacao")
     private String observacao;
 
-    @ManyToMany(mappedBy = "lancamento", cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "lancamento_item",
+            joinColumns = { @JoinColumn(name = "oid_lancamento") },
+            inverseJoinColumns = { @JoinColumn(name = "oid_item") }
+    )
     private List<LancamentoItem> itens = new ArrayList<>();
 
     public List<LancamentoItem> getItens() {
