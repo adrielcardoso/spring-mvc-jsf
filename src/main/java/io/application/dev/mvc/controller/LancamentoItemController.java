@@ -18,38 +18,27 @@ public class LancamentoItemController implements Serializable
     private List<LancamentoItem> itens;
     private LancamentoItem selectedItem;
     private LancamentoItemService service;
-
-    private float valor;
-    private String descricao;
-
-    public float getValor() {
-        return valor;
-    }
-
-    public void setValor(float valor) {
-        this.valor = valor;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+    private LancamentoItem newLancamentoItem;
 
     @PostConstruct
     public void init() {
-
+        this.newLancamentoItem = new LancamentoItem();
         if(this.service == null){
             this.service = new LancamentoItemService();
         }
-
         this.itens = this.service.obter();
     }
 
     public List<LancamentoItem> getItens() {
         return itens;
+    }
+
+    public LancamentoItem getNewLancamentoItem() {
+        return newLancamentoItem;
+    }
+
+    public void setNewLancamentoItem(LancamentoItem newLancamentoItem) {
+        this.newLancamentoItem = newLancamentoItem;
     }
 
     public LancamentoItem getSelectedItem() {
@@ -71,6 +60,7 @@ public class LancamentoItemController implements Serializable
             this.service.editar(
                     (LancamentoItem) event.getObject()
             );
+            this.itens = this.service.obter();
         }catch (Exception e){
             message = e.getMessage();
         }
@@ -83,6 +73,7 @@ public class LancamentoItemController implements Serializable
         String message = "Item Deletado com sucesso";
         try{
             this.service.deletar(lancamentoItem);
+            this.itens = this.service.obter();
         }catch (Exception e){
             message = e.getMessage();
         }
@@ -96,14 +87,11 @@ public class LancamentoItemController implements Serializable
     }
 
     public void onAddNew() {
-        LancamentoItem temp = new LancamentoItem();
-        temp.setValor(this.valor);
-        temp.setDescricao(this.descricao);
-        this.service.guardar(temp);
+
+        this.service.guardar(this.newLancamentoItem);
+        this.itens = this.service.obter();
+
         FacesMessage msg = new FacesMessage("Cadastrado com sucesso", Long.toString(1));
         FacesContext.getCurrentInstance().addMessage(null, msg);
-
-        this.valor = 0;
-        this.descricao = null;
     }
 }

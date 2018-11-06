@@ -11,6 +11,12 @@
 
     <h1>Painel de Itens para Lançamentos</h1>
 
+    <!--NAV BUTTONS-->
+
+    <h:panelGrid columns="1" cellpadding="5">
+        <p:commandButton value="Novo Item" type="button" onclick="PF('dlg2').show();" />
+    </h:panelGrid>
+
     <p:spacer> </p:spacer>
     <h:form id="form">
 
@@ -46,21 +52,40 @@
                 <p:rowEditor />
             </p:column>
             <p:column headerText="Remover">
-                <p:commandButton  action="#{LancamentoItemBean.onRowDelete(item)}" value="Remover" ajax="true" update="dataTable" process="@this" />
+                <p:commandButton  action="#{LancamentoItemBean.onRowDelete(item)}" value="Remover" ajax="true" update=":form:dataTable" process="@this" />
             </p:column>
         </p:dataTable>
+    </h:form>
+
+    <!--MODAL LANCAMENTO-->
+
+    <p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true">
+
+        <h3 style="margin-top: 0">Cadastro de Item</h3>
 
         <h:panelGroup>
-            <h3>Add Item</h3>
-            <h:form>
-                <p>Valor
-                    <p:inputText value="#{LancamentoItemBean.valor}" /></p>
-                <p>Descricao
-                    <p:inputText value="#{LancamentoItemBean.descricao}" /></p>
-                <p:commandButton icon="ui-icon-plusthick" update=":form:dataTable" type="submit" value="add" action="#{LancamentoItemBean.onAddNew}" />
-            </h:form>
+
+            <div class="ui-g">
+
+                <div class="ui-g-6">
+                    <p:outputLabel for="popup" value="Valor" />
+                    <p:inputText id="popup" value="#{LancamentoItemBean.newLancamentoItem.valor}" />
+                </div>
+
+                <div class="ui-g-12">
+                    <h3>Observação</h3>
+                    <p:inputTextarea rows="6" cols="33" value="#{LancamentoItemBean.newLancamentoItem.descricao}" />
+                </div>
+
+                <div class="ui-g-12">
+                    <p:commandButton onclick="PF('dlg2').hide();" icon="ui-icon-plusthick" update=":form:dataTable" type="submit" value="Cadastrar" action="#{LancamentoItemBean.onAddNew}" />
+                </div>
+
+            </div>
+
         </h:panelGroup>
-    </h:form>
+
+    </p:dialog>
 </h:body>
 
 </html>

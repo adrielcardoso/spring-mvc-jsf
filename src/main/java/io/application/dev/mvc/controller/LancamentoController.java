@@ -38,6 +38,7 @@ public class LancamentoController implements Serializable
 
     @PostConstruct
     public void init() {
+        this.newLancamento = new Lancamento();
         if(this.service == null){
             this.service = new LancamentoService();
         }
@@ -52,8 +53,6 @@ public class LancamentoController implements Serializable
         List<LancamentoItem> itemTarget = new ArrayList<>();
 
         this.itensDisponiveis = new DualListModel<>(itemSource, itemTarget);
-
-        this.newLancamento = new Lancamento();
     }
 
     public DualListModel getItensDisponiveis() {
