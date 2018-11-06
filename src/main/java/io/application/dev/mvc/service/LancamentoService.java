@@ -1,14 +1,13 @@
-package io.application.dev.mvc.DAO;
+package io.application.dev.mvc.service;
 
-import io.application.dev.mvc.model.JPAUtil;
 import io.application.dev.mvc.model.Lancamento;
-import io.application.dev.mvc.model.LancamentoItem;
+import io.application.dev.mvc.util.JPAUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
 
-public class LancamentoDAO
+public class LancamentoService
 {
     public List<Lancamento> obter(){
         EntityManager entity = JPAUtil.getEntityManagerFactory().createEntityManager();

@@ -1,13 +1,6 @@
 package io.application.dev.mvc.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import io.application.dev.mvc.util.LocalDateTimeAttributeConverter;
-import io.application.dev.mvc.util.LocalDateTimeDeserializer;
-import io.application.dev.mvc.util.LocalDateTimeSerializer;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity

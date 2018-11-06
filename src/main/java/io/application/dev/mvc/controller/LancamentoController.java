@@ -1,10 +1,9 @@
-package io.application.dev.mvc.presentation;
+package io.application.dev.mvc.controller;
 
-import io.application.dev.mvc.DAO.LancamentoDAO;
-import io.application.dev.mvc.DAO.LancamentoItemDAO;
 import io.application.dev.mvc.model.Lancamento;
 import io.application.dev.mvc.model.LancamentoItem;
-import org.primefaces.event.RowEditEvent;
+import io.application.dev.mvc.service.LancamentoItemService;
+import io.application.dev.mvc.service.LancamentoService;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TransferEvent;
 import org.primefaces.model.DualListModel;
@@ -20,12 +19,12 @@ import java.util.List;
 
 @ManagedBean(name = "LancamentoBean")
 @RequestScoped
-public class LancamentoBean implements Serializable
+public class LancamentoController implements Serializable
 {
     private List<Lancamento> data;
 
-    private LancamentoDAO service;
-    private LancamentoItemDAO lancamentoItemDAO;
+    private LancamentoService service;
+    private LancamentoItemService lancamentoItemDAO;
 
     private Lancamento newLancamento;
     private LancamentoItem newItem;
@@ -40,11 +39,11 @@ public class LancamentoBean implements Serializable
     @PostConstruct
     public void init() {
         if(this.service == null){
-            this.service = new LancamentoDAO();
+            this.service = new LancamentoService();
         }
 
         if(this.lancamentoItemDAO == null){
-            this.lancamentoItemDAO = new LancamentoItemDAO();
+            this.lancamentoItemDAO = new LancamentoItemService();
         }
 
         this.data = this.service.obter();

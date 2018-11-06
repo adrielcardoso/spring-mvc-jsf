@@ -1,7 +1,7 @@
-package io.application.dev.mvc.presentation;
+package io.application.dev.mvc.controller;
 
-import io.application.dev.mvc.DAO.LancamentoItemDAO;
 import io.application.dev.mvc.model.LancamentoItem;
+import io.application.dev.mvc.service.LancamentoItemService;
 import org.primefaces.event.RowEditEvent;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -13,11 +13,11 @@ import java.io.Serializable;
 
 @ManagedBean(name = "LancamentoItemBean")
 @RequestScoped
-public class LancamentoItemBean implements Serializable
+public class LancamentoItemController implements Serializable
 {
     private List<LancamentoItem> itens;
     private LancamentoItem selectedItem;
-    private LancamentoItemDAO service;
+    private LancamentoItemService service;
 
     private float valor;
     private String descricao;
@@ -42,7 +42,7 @@ public class LancamentoItemBean implements Serializable
     public void init() {
 
         if(this.service == null){
-            this.service = new LancamentoItemDAO();
+            this.service = new LancamentoItemService();
         }
 
         this.itens = this.service.obter();
@@ -60,7 +60,7 @@ public class LancamentoItemBean implements Serializable
         this.selectedItem = selectedItem;
     }
 
-    public void setService(LancamentoItemDAO service) {
+    public void setService(LancamentoItemService service) {
         this.service = service;
     }
 

@@ -8,6 +8,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 @FacesConverter(value="bizEntityDualListConverter")
 public class BizEntityDualListConverter implements Converter {
