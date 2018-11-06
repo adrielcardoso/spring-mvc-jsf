@@ -1,10 +1,7 @@
 package io.application.dev.mvc.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "item")
@@ -23,6 +20,21 @@ public class LancamentoItem
 
     @ManyToMany(mappedBy = "itens", cascade = CascadeType.ALL)
     private List<Lancamento> lancamento = new ArrayList<>();
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LancamentoItem item = (LancamentoItem) o;
+        return Objects.equals(id, item.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
+
 
     public List<Lancamento> getLancamento() {
         return lancamento;

@@ -31,13 +31,39 @@ public class Lancamento
     @Column(name = "observacao")
     private String observacao;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
     @JoinTable(
             name = "lancamento_item",
             joinColumns = { @JoinColumn(name = "oid_lancamento") },
             inverseJoinColumns = { @JoinColumn(name = "oid_item") }
     )
     private List<LancamentoItem> itens = new ArrayList<>();
+
+
+    public void addItem(LancamentoItem item) {
+        this.itens.add(item);
+        item.getLancamento().add(this);
+    }
+
+    public void removeItem(LancamentoItem item) {
+        this.itens.remove(item);
+        item.getLancamento().remove(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LancamentoItem)) return false;
+        return id != null && id.equals(((LancamentoItem) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return 31;
+    }
 
     public List<LancamentoItem> getItens() {
         return itens;

@@ -2,6 +2,7 @@ package io.application.dev.mvc.DAO;
 
 import io.application.dev.mvc.model.JPAUtil;
 import io.application.dev.mvc.model.Lancamento;
+import io.application.dev.mvc.model.LancamentoItem;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -23,11 +24,16 @@ public class LancamentoDAO
         entity.getTransaction().commit();
     }
 
-    public void editar(Lancamento lancamento){
+    public void editar(Lancamento lancamento) throws Exception{
         EntityManager entity = JPAUtil.getEntityManagerFactory().createEntityManager();
-        entity.getTransaction().begin();
-        entity.merge(lancamento);
-        entity.getTransaction().commit();
+        Lancamento temp = entity.find(Lancamento.class,lancamento.getId());
+        if(temp == null){
+            throw new Exception("lancamento nao encontrado");
+        }
+        temp.setItens(
+                lancamento.getItens()
+        );
+        entity.merge(temp);
     }
 
     public void deletar(Lancamento lancamento){

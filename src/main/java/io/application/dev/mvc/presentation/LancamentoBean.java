@@ -157,14 +157,20 @@ public class LancamentoBean implements Serializable
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, String.valueOf(this.itensDisponiveis.getTarget().size()) + " itens", ""));
 
-        this.service.editar(
-                this.getCurrentLancamento()
-        );
+        try{
 
-        this.data = this.service.obter();
+            this.service.editar(
+                    this.getCurrentLancamento()
+            );
 
-        FacesMessage msg = new FacesMessage("Adicionado com sucesso");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+            this.data = this.service.obter();
+
+            FacesMessage msg = new FacesMessage("Adicionado com sucesso");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }catch (Exception e){
+            FacesMessage msg = new FacesMessage(e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
     }
 
     public void transferEvent(TransferEvent event){
